@@ -1,7 +1,7 @@
 # rye-update-bot
 
-This is a simple workflow to update rye dependencies and create a PR with beautiful Output
-Inspired by https://github.com/EdmundGoodman/update-bot
+This is a simple workflow to update rye dependencies and create a PR with beautiful output,
+inspired by https://github.com/EdmundGoodman/update-bot
 
 ## Motivation
 

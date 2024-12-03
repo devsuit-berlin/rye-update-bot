@@ -5,7 +5,7 @@ Inspired by https://github.com/EdmundGoodman/update-bot
 
 ## Motivation
 
-As @EdmundGoodman stated, until now there is now support of Dependabot with updating dependencies from rye or uv.
+As [EdmundGoodman](https://github.com/EdmundGoodman) stated, until now there is now support of Dependabot with updating dependencies from rye or uv.
 In our company we're using primarly rye for project management. So the need arised to create an workflow which
 enables us to create PRs which contains package updates on a regular basis.
 

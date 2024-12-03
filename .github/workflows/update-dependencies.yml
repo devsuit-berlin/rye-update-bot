@@ -1,0 +1,99 @@
+name: Update Dependencies
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * 3'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  lock:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install the latest version of rye
+        uses: eifinger/setup-rye@v4
+      - name: Update dependencies
+        run: rye lock --update-all
+      - name: Create PR body
+        run: |
+          echo "## Updated dependencies" > rye_output.md
+          echo "" >> rye_output.md
+          echo "The following dependencies have been updated:" >> rye_output.md
+          echo "" >> rye_output.md
+
+          for file in "pyproject.toml" "requirements.lock" "requirements-dev.lock"; do
+            if [ -f "$file" ]; then
+              echo "Processing $file..."  # Debug output
+
+              # Process changes with improved awk script
+              changes=$(git diff --unified=0 "$file" | grep -E '^\+|^-' | grep -v '^\+\+\+|^---' | \
+                awk '
+                  BEGIN {
+                    major = ""
+                    minor = ""
+                    patch = ""
+                  }
+                  /^-/ { old=$0; next }
+                  /^\+/ {
+                    gsub(/^-|^\+/, "", old)
+                    gsub(/^-|^\+/, "", $0)
+                    split(old, o, "==")
+                    split($0, n, "==")
+                    if (o[1] == n[1]) {
+                      split(o[2], ov, ".")
+                      split(n[2], nv, ".")
+                      change = "* " o[1] ": `" o[2] "` → `" n[2] "`"
+                      if (ov[1] != nv[1])
+                        major = major "\n" change " 🚨"
+                      else if (ov[2] != nv[2])
+                        minor = minor "\n" change " 🟡"
+                      else
+                        patch = patch "\n" change " 🟢"
+                    }
+                  }
+                  END {
+                    if (major != "") print "#### Major Updates 🚨" major
+                    if (minor != "") print "\n#### Minor Updates 🟡" minor
+                    if (patch != "") print "\n#### Patch Updates 🟢" patch
+                  }
+                ' || true)
+
+              echo "Processed changes: $changes"  # Debug output
+
+              if [ ! -z "$changes" ]; then
+                echo "### $file" >> rye_output.md
+                echo "$changes" >> rye_output.md
+                echo "" >> rye_output.md
+              else
+                echo "### $file" >> rye_output.md
+                echo '```diff' >> rye_output.md
+                echo "No changes detected." >> rye_output.md
+                echo '```' >> rye_output.md
+              fi
+            fi
+          done
+
+          # Ensure non-empty output even if no changes
+          if [ ! -s rye_output.md ]; then
+            echo "No dependency changes detected." >> rye_output.md
+          fi
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: Update dependencies
+          title: "BOT: Update dependencies"
+          body-path: rye_output.md
+          branch: update-dependencies
+          base: main
+          labels: |
+            dependency-bot
+            reviewer-merge
+          add-paths: |
+            pyproject.toml
+            requirements-dev.lock
+            requirements.lock

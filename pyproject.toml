@@ -1,0 +1,19 @@
+[project]
+name = "rye-update-bot"
+version = "0.1.0"
+description = "This is a sample project for the rye-update-bot"
+authors = [
+    { name = "Fabian Clemenz", email = "fabian.clemenz@devsuit.de" }
+]
+dependencies = [
+    "fastapi>=0.115.6",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[tool.rye]
+managed = true
+virtual = true
+dev-dependencies = [
+    "pytest>=8.3.4",
+]

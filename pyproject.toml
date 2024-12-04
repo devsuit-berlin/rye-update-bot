@@ -5,15 +5,15 @@ description = "This is a sample project for the rye-update-bot"
 authors = [
     { name = "Fabian Clemenz", email = "fabian.clemenz@devsuit.de" }
 ]
-dependencies = [
-    "fastapi>=0.115.6",
-]
 readme = "README.md"
 requires-python = ">= 3.8"
+dependencies = [
+    "fastapi==0.114.0",
+]
 
 [tool.rye]
 managed = true
 virtual = true
 dev-dependencies = [
-    "pytest>=8.3.4",
+    "pytest==8.3.3",
 ]

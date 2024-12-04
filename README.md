@@ -14,40 +14,14 @@ enables us to create PRs which contains package updates on a regular basis.
 This is a goto workflow - simply copy and paste the code and everything should work. The basic configuration runs the workflow
 on every wednesday @ 02:00.
 
+### Sample Project
+
+This project contains a sample RYE project to show the functionality.
+
 ## Output
 
 The workflow generates a PR with title `BOT: Update dependencies` and commit-message `Update dependencies` on the branch `update-dependencies`.
 The PR is created against the `main` branch and contains as body every updated dependency of the files `pyproject.toml`, `requirements.lock` and `requirements-dev.lock`.
 Updates are grouped by major, minor and patch changes.
 
-A sample output looks like this:
-
-
-## Updated dependencies
-
-The following dependencies have been updated:
-
-### pyproject.toml
-```diff
-No changes detected.
-```
-### requirements.lock
-#### Major Updates 🚨
-* cryptography: `43.0.3` → `44.0.0` 🚨
-
-#### Minor Updates 🟡
-* amqp: `5.2.0` → `5.3.1` 🟡
-
-#### Patch Updates 🟢
-* bcrypt: `4.2.0` → `4.2.1` 🟢
-
-### requirements-dev.lock
-#### Major Updates 🚨
-* asttokens: `2.4.1` → `3.0.0` 🚨
-
-#### Minor Updates 🟡
-* amqp: `5.2.0` → `5.3.1` 🟡
-
-#### Patch Updates 🟢
-* bcrypt: `4.2.0` → `4.2.1` 🟢
-
+A sample output looks like this

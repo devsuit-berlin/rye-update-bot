@@ -13,7 +13,7 @@ annotated-types==0.7.0
     # via pydantic
 anyio==4.6.2.post1
     # via starlette
-fastapi==0.114.0
+fastapi==0.115.0
 idna==3.10
     # via anyio
 iniconfig==2.0.0

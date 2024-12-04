@@ -25,3 +25,25 @@ The PR is created against the `main` branch and contains as body every updated d
 Updates are grouped by major, minor and patch changes.
 
 A sample output looks like this
+
+## Updated dependencies
+
+The following dependencies have been updated:
+
+### pyproject.toml
+
+```diff
+No changes detected.
+```
+
+### requirements.lock
+
+#### Patch Updates 🟢
+
+* pydantic: `2.10.2` → `2.10.3` 🟢
+
+### requirements-dev.lock
+
+#### Patch Updates 🟢
+
+* pydantic: `2.10.2` → `2.10.3` 🟢
